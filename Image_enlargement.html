@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #smallImg {
+            width: 300px;
+            height: 300px;
+            background-image: url(./lou.jpg);
+            background-size: cover;
+        }
+        #smallDiv {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 0, 0, .2);
+            display: none;
+            position: absolute;
+        }
+
+        #bigDiv {
+            width: 300px;
+            height: 300px;
+            /* border: 1px solid red; */
+            position: absolute;
+            left: 300px;
+            top: 0px;
+            overflow: hidden;
+            display: none;
+        }
+
+        #bigImg {
+            width: 900px;
+            height: 900px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="fang">
+        <div id="smallImg">
+            <div id="smallDiv"></div>
+        </div>
+
+        <div id="bigDiv">
+            <img src="./lou.jpg" alt="" id="bigImg">
+        </div>
+    </div>
+
+
+    <script>
+        // logic:
+        // 1. When the mouse moves in, a small div (occlusion layer) and a large div (display effect area) appear
+        // Move the mouse out, hide the small div and the large div
+
+        let smallImg = document.getElementById("smallImg");
+        let smallDiv = document.getElementById("smallDiv");
+        let bigDiv = document.getElementById("bigDiv");
+        let bigImg = document.getElementById("bigImg");
+
+        smallImg.onmouseover = function(){
+            smallDiv.style.display = 'block';
+            bigDiv.style.display = 'block';
+        }
+        smallImg.onmouseout = function(){
+            smallDiv.style.display = 'none';
+            bigDiv.style.display = 'none';
+        }
+
+       // 2. The moving direction of the small div is opposite to the moving direction of the large image
+        // 2.1 Complete the mouse binding occlusion layer first
+            // The mouse movement distance is greater than the movement distance of the occlusion layer
+        // 2.2 Move the small div and the big picture OK
+
+        // 3. Core: There is a scale for the entire magnifying glass function
+        // small div/small image = big div/large image
+        // 100 / 300 = 300 / 900
+        // Analysis: Size -> Conclusion: 3 times -> is the distance moved
+
+        smallImg.onmousemove = function(e){
+            var e = e || window.event;
+            // console.log(e.clientX,e.clientY);
+            var x = e.clientX-50;
+            var y = e.clientY-50;
+            // Judging the range of movement
+            if(x>=200){
+                x=200;
+            }
+            if(x<=0){
+                x=0;
+            }
+            if(y>=200){
+                y=200;
+            }
+            if(y<=0){
+                y=0;
+            }
+
+            // Big picture small div
+            smallDiv.style.left = x+'px';
+            smallDiv.style.top = y+'px';
+            
+            // Moving distance of big picture 
+            bigImg.style.left = -3*x+'px';
+            bigImg.style.top = -3*y+'px';
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
